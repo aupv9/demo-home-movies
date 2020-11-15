@@ -44,10 +44,5 @@ npm run build
 - [Redux Thunk](https://github.com/reduxjs/redux-thunk)
 - [Styled Components](https://www.styled-components.com)
 
-## Contributing
 
-Please feel free to send pull request if you want to contribute!
 
-## Authors
-
-- **Fidalgo** - _Development_ - [Fidalgo](https://github.com/fidalgodev)
