@@ -43,6 +43,7 @@ const Discover = ({
     params,
     clearMovies
   );
+  
 
   // If loading
   if (movies.loading) {

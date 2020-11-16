@@ -1,6 +1,13 @@
 // TYPES AS CONST SO ITS EASIER TO SPOT ERRORS
 
 // Get basic cfg obj from API and Genres for the sidebar
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+
+export const GET_USER_SUCCES = 'GET_USER_SUCCES';
+export const GET_USER_FAIL = 'GET_USER_FAIL';
+
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_GENRES = 'GET_GENRES';
 

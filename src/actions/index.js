@@ -1,6 +1,26 @@
 import * as TYPES from './types';
 import tmdbAPI from '../api/tmdb';
 import history from '../history';
+import Axios from 'axios';
+
+
+export const userLogin = (user) => async dispatch => {
+  console.log(user);
+ await Axios.post("http://localhost:8080/api/v1/login",user).then(res =>{
+        dispatch({
+          type:TYPES.LOGIN_SUCCESS,
+          payload:res.data
+        })
+  }).catch(err =>{
+    dispatch({
+      type:TYPES.LOGIN_FAIL
+    })
+  });
+
+};
+
+
+
 
 // When app inits
 export const init = () => async dispatch => {
