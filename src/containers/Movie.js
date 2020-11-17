@@ -14,7 +14,7 @@ import {
   getMovie,
   getRecommendations,
   clearRecommendations,
-  clearMovie,
+  clearMovie,saveFilm
 } from '../actions';
 import Rating from '../components/Rating';
 import NotFound from '../components/NotFound';
@@ -25,6 +25,7 @@ import MoviesList from '../components/MoviesList';
 import Button from '../components/Button';
 import NothingSvg from '../svg/nothing.svg';
 import Loading from '../components/Loading';
+import { CButton } from '@coreui/react';
 
 const Wrapper = styled.div`
   display: flex;
@@ -269,6 +270,7 @@ const Movie = ({
   recommended,
   getRecommendations,
   clearRecommendations,
+  saveFilm,user
 }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -299,11 +301,20 @@ const Movie = ({
   if (movie.loading) {
     return <Loader />;
   }
-
+   
   if (movie.status_code) {
     history.push(process.env.PUBLIC_URL + '/404');
   }
-
+  const addListFilm = () =>{
+    const id = localStorage.getItem("id");
+    saveFilm({id:id,idFilm:match.params.id});
+    
+  }
+  // useEffect(() => {
+  //    if(user.type === "SAVE_FILM_SUCCES"){
+  //      console.log("success");
+  //    }
+  // }, [user]);
   return (
     <Wrapper>
       <Helmet>
@@ -360,9 +371,17 @@ const Movie = ({
             <Cast cast={movie.cast} baseUrl={secure_base_url} />
             <ButtonsWrapper>
               <LeftButtons>
+                
+                <CButton color="primary" onClick={()=>{addListFilm()}} style={{background:"#EBEDEF",color:"#000", 
+                borderColor:"#535C61",borderRadius:"30px",width:"100px",fontSize:"16px"}}>Add</CButton>
                 {renderWebsite(movie.homepage)}
                 {renderImdb(movie.imdb_id)}
                 {renderTrailer(
+                  movie.videos.results,
+                  modalOpened,
+                  setmodalOpened
+                )}
+               {renderFilm(
                   movie.videos.results,
                   modalOpened,
                   setmodalOpened
@@ -402,6 +421,7 @@ function renderWebsite(link) {
   );
 }
 
+
 // Render IMDB button
 function renderImdb(id) {
   if (!id) {
@@ -422,10 +442,34 @@ function renderTrailer(videos, modalOpened, setmodalOpened) {
   const { key } = videos.find(
     video => video.type === 'Trailer' && video.site === 'YouTube'
   );
+
   return (
     <React.Fragment>
       <div onClick={() => setmodalOpened(true)}>
         <Button title="Trailer" icon="play" />
+      </div>
+      <ModalVideo
+        channel="youtube"
+        isOpen={modalOpened}
+        videoId={key}
+        onClose={() => setmodalOpened(false)}
+      />
+    </React.Fragment>
+  );
+}
+
+function renderFilm(videos, modalOpened, setmodalOpened) {
+  if (videos.length === 0) {
+    return;
+  }
+  const { key } = videos.find(
+    video => video.type === 'Trailer' && video.site === 'YouTube'
+  );
+
+  return (
+    <React.Fragment>
+      <div onClick={() => setmodalOpened(true)}>
+        <Button title="Watch" icon="play" />
       </div>
       <ModalVideo
         channel="youtube"
@@ -497,13 +541,14 @@ function renderGenres(genres) {
 }
 
 // Get state from store and pass as props to component
-const mapStateToProps = ({ movie, geral, recommended }) => ({
+const mapStateToProps = ({ movie, geral, recommended,user }) => ({
   movie,
   geral,
   recommended,
+  user
 });
 
 export default connect(
   mapStateToProps,
-  { getMovie, clearMovie, getRecommendations, clearRecommendations }
+  { getMovie, clearMovie, getRecommendations, clearRecommendations, saveFilm }
 )(Movie);

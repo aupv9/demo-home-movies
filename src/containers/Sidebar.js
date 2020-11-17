@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect ,useState} from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -7,7 +7,8 @@ import StickyBox from 'react-sticky-box';
 import Logo from '../components/Logo';
 import TmdbLogo from '../svg/tmdb.svg';
 import MenuItem from '../components/MenuItem';
-
+import { CButton } from '@coreui/react';
+import {logout} from '../actions/index';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -92,39 +93,37 @@ const Svg = styled.img`
   height: 3rem;
 `;
 
-const Sidebar = ({ genres, staticCategories, selected }) => {
+const Sidebar = ({ genres, staticCategories, selected,logout ,user}) => {
+
+  const [auth, setAuth] = useState(user.auth);
+  const signout= () =>{
+    logout();
+  }
+
+  useEffect(() => {
+    if(user.type === "LOGOUT_SUCCESS"){
+      console.log(user);
+      localStorage.removeItem("auth");
+      window.location.reload();
+    }
+  
+   
+  }, [user]);
+
   return (
+    
     <StickyBox>
       <Wrapper>
+        
         <Logo />
+        <CButton color="danger" size="md" className="h-100" onClick={signout}>Sign Out</CButton>
         <Heading>Discover</Heading>
         {renderStatic(staticCategories, selected)}
         <Heading>Genres</Heading>
         {renderGenres(genres, selected)}
-        <StyledCoffe
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.buymeacoffee.com/fidalgodev"
-        >
-          <img
-            src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg"
-            alt="Buy me a coffee"
-          />
-          <span style={{ marginLeft: '5px' }}>Buy me a coffee</span>
-        </StyledCoffe>
-        <CopyRight>
-          Copyright ©
-          <StyledLink href="https://www.github.com/fidalgodev">
-            Fidalgo
-          </StyledLink>
-        </CopyRight>
-        <Svg
-          src={`${TmdbLogo}`}
-          alt="The Movie Database"
-          style={{ margin: '2rem 0' }}
-        />
       </Wrapper>
     </StickyBox>
+    
   );
 };
 
@@ -160,12 +159,13 @@ function renderGenres(genres, selected, setisOpened) {
   ));
 }
 
-const mapStateToProps = ({ geral }) => {
+const mapStateToProps = ({ geral,user }) => {
   return {
     staticCategories: geral.staticCategories,
     genres: geral.genres,
     selected: geral.selected,
+    user:user
   };
 };
 
-export default connect(mapStateToProps)(Sidebar);
+export default connect(mapStateToProps,{logout})(Sidebar);

@@ -40,6 +40,7 @@ import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons';
 import Login from './Login';
 import PrivateRoute from '../components/PrivateRoute ';
 import * as TYPES from '../actions/types';
+import Register from './Register';
 library.add(
   fab,
   faArrowLeft,
@@ -99,7 +100,6 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = ({ init, isLoading ,user}) => {
   useEffect(() => {
-    console.log(localStorage.getItem("auth"));
     setAuth(localStorage.getItem("auth"))
     init();
   }, []);
@@ -121,7 +121,9 @@ const App = ({ init, isLoading ,user}) => {
   }, []);
 
   useEffect(() => {
-    if(user.type === TYPES.LOGIN_SUCCESS){
+    if(user.type === TYPES.LOGIN_SUCCESS && user.payload.isActive === true){
+        setAuth(user.auth);
+    }else if(user.type === TYPES.LOGIN_FAIL){
         setAuth(user.auth);
     }
   }, [user])
@@ -149,8 +151,8 @@ const App = ({ init, isLoading ,user}) => {
           }
           <ContentWrapper>
             <Switch>
-              <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
-
+               <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} /> 
+               <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} /> 
               <PrivateRoute
                 path={process.env.PUBLIC_URL + '/'}
                 exact
@@ -181,7 +183,7 @@ const App = ({ init, isLoading ,user}) => {
                 exact
                 component={Movie}
               />
-              <PrivateRoute
+              <Route
                 path={process.env.PUBLIC_URL + '/person/:id'}
                 exact
                 component={Person}
@@ -196,7 +198,7 @@ const App = ({ init, isLoading ,user}) => {
                 path={process.env.PUBLIC_URL + '/error'}
                 component={ShowError}
               />
-              <PrivateRoute
+              <Route
                 component={() => (
                   <NotFound title="Upps!" subtitle={`This doesn't exist...`} />
                 )}

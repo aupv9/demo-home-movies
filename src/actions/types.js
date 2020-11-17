@@ -4,9 +4,17 @@
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
 export const GET_USER_SUCCES = 'GET_USER_SUCCES';
 export const GET_USER_FAIL = 'GET_USER_FAIL';
+
+export const REGISTER_USER_SUCCES = 'REGISTER_USER_SUCCES';
+export const REGISTER_USER_FAIL = 'REGISTER_USER_FAIL';
+
+export const SAVE_FILM_SUCCES = 'SAVE_FILM_SUCCES';
+export const SAVE_FILM_FAIL = 'SAVE_FILM_FAIL';
+
 
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_GENRES = 'GET_GENRES';

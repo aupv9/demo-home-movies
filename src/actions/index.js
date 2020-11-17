@@ -5,7 +5,6 @@ import Axios from 'axios';
 
 
 export const userLogin = (user) => async dispatch => {
-  console.log(user);
  await Axios.post("http://localhost:8080/api/v1/login",user).then(res =>{
         dispatch({
           type:TYPES.LOGIN_SUCCESS,
@@ -19,8 +18,58 @@ export const userLogin = (user) => async dispatch => {
 
 };
 
+export const getUser = (id) => async dispatch => {
+ await Axios.get(`http://localhost:8080/api/v1/user/${id}`).then(res =>{
+   console.log(res)
+        dispatch({
+          type:TYPES.GET_USER_SUCCES,
+          payload:res.data
+        })
+  }).catch(err =>{
+      dispatch({
+        type:TYPES.GET_USER_FAIL
+      })
+  });
 
+};
 
+export const logout = () => async dispatch => {
+    console.log("logout");
+         dispatch({
+           type:TYPES.LOGOUT_SUCCESS
+         })
+ };
+
+ export const registerUser = (user) => async dispatch => {
+  await Axios.post(`http://localhost:8080/api/v1/user`,user).then(res =>{
+    console.log(res)
+         dispatch({
+           type:TYPES.REGISTER_USER_SUCCES,
+           payload:res.data
+         })
+   }).catch(err =>{
+       dispatch({
+         type:TYPES.REGISTER_USER_FAIL
+       })
+   });
+ 
+ };
+ 
+
+ export const saveFilm = (user) => async dispatch => {
+   console.log(user);
+  await Axios.put(`http://localhost:8080/api/v1/user-film`,user).then(res =>{
+         dispatch({
+           type:TYPES.SAVE_FILM_SUCCES,
+           payload:res.data
+         })
+   }).catch(err =>{
+       dispatch({
+         type:TYPES.SAVE_FILM_FAIL
+       })
+   });
+ 
+ };
 
 // When app inits
 export const init = () => async dispatch => {

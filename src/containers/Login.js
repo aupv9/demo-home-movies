@@ -17,12 +17,12 @@ import {
 import CIcon from '@coreui/icons-react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { toast ,ToastContainer} from 'react-toastify';
+// import { toast ,ToastContainer} from 'react-toastify';
 import { connect } from 'react-redux';
-import { userLogin} from '../actions';
+import { userLogin,getUser} from '../actions';
 import * as TYPES from '../actions/types';
 
-const Login = ({user,userLogin}) => {
+const Login = ({user,userLogin,getUser}) => {
   const history = useHistory();
   const [values,setValues] = useState({});
   const handleInputChange =(event) =>{
@@ -41,33 +41,29 @@ const Login = ({user,userLogin}) => {
 
   useEffect(() => {
      if(user.type === TYPES.LOGIN_SUCCESS){
-        localStorage.setItem("auth",true);
-         history.push("/discover/Popular");
+         if(user.payload.token !== "" && user.payload.roles[0] === "ROLE_USER"){
+            getUser(user.payload.id);        
+        }
      }else if(user.type === TYPES.LOGIN_FAIL){
-         console.log("123123")
+        
+     }
+     if(user.type === TYPES.GET_USER_SUCCES){
+       if(user.payload.member["premium"] === "PREMIUM" && user.payload.isActive === true){
+          localStorage.setItem("auth",true);
+          localStorage.setItem("id",user.payload.id);
+          history.push("/discover/Popular");
+          window.location.reload();
+       }
      }
   }, [user]);
 
    const login = ()=>{
-    
     userLogin(values);
-//      axios.post(`http://localhost:8080/api/v1/login`,values).then(res => {
-//       if(res.status === 200){
-//        if(res.data.token !== "" && res.data.roles[0] === "ROLE_USER"){
-//              axios.get(`http://localhost:8080/api/v1/user/${res.data.id}`).then(res =>{
-//                     if(res.data.member["premium"] === "PREMIUM"){
-//                         localStorage.setItem("auth",true);
-//                         history.push("/discover/Popular");
-//                     }
-//             })
-//         }
-//       }
-//   }).catch(error => toast.error("Username orr Passsword Incorrect"));
 };
 
   return (
-    <div className="c-app c-default-layout flex-row align-items-center">
-       <ToastContainer></ToastContainer>
+    <div className="c-app c-default-layout flex-row align-items-center ">
+       {/* <ToastContainer></ToastContainer> */}
 
       <CContainer>
         <CRow className="justify-content-center mh-100">
@@ -109,8 +105,7 @@ const Login = ({user,userLogin}) => {
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.</p>
+                    <p>No Account. You are sign up now .............................................................................</p>
                     <Link to="/register">
                       <CButton color="primary" className="mt-3" active tabIndex={-1}>Register Now!</CButton>
                     </Link>
@@ -134,5 +129,5 @@ const mapStateToProps = ({ user }) => {
 
 export default connect(
     mapStateToProps,
-    { userLogin}
+    { userLogin,getUser}
   ) (Login);
