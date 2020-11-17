@@ -52,7 +52,6 @@ const Login = ({user,userLogin,getUser}) => {
           localStorage.setItem("auth",true);
           localStorage.setItem("id",user.payload.id);
           history.push("/discover/Popular");
-          window.location.reload();
        }
      }
   }, [user]);

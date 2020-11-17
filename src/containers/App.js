@@ -4,7 +4,7 @@ import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import history from '../history';
 import { connect } from 'react-redux';
 import { init } from '../actions';
-import ReactGA from 'react-ga';
+import ReactGA, { set } from 'react-ga';
 
 import Sidebar from './Sidebar';
 import MenuMobile from './MenuMobile';
@@ -125,6 +125,12 @@ const App = ({ init, isLoading ,user}) => {
         setAuth(user.auth);
     }else if(user.type === TYPES.LOGIN_FAIL){
         setAuth(user.auth);
+    }
+    if(user.type === TYPES.LOGOUT_SUCCESS){
+      setAuth(user.auth);
+    }
+    if(user.type === TYPES.GET_USER_SUCCES){
+       setAuth(user.auth);
     }
   }, [user])
 

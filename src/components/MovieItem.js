@@ -153,7 +153,6 @@ const Tooltip = styled.span`
 const MovieItem = ({ movie, baseUrl }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
-
   useEffect(() => {
     return () => setLoaded(false);
   }, []);

@@ -32,7 +32,8 @@ const MoviesList = ({ movies, baseUrl }) => {
   return (
     <React.Fragment>
       <MoviesWrapper>
-        {movies.results.map(movie => (
+        { 
+        movies.results.map(movie => (
           <MovieItem movie={movie} key={movie.id} baseUrl={baseUrl} />
         ))}
       </MoviesWrapper>

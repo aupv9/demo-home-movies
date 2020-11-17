@@ -296,7 +296,12 @@ const Movie = ({
     getRecommendations(match.params.id, params.page);
     return () => clearRecommendations();
   }, [params.page]);
-
+  useEffect(() => {
+    if(user.type === "SAVE_FILM_SUCCES"){
+      console.log("success");
+    }
+ }, [user]);
+ 
   // If loading
   if (movie.loading) {
     return <Loader />;
@@ -310,11 +315,8 @@ const Movie = ({
     saveFilm({id:id,idFilm:match.params.id});
     
   }
-  // useEffect(() => {
-  //    if(user.type === "SAVE_FILM_SUCCES"){
-  //      console.log("success");
-  //    }
-  // }, [user]);
+ 
+
   return (
     <Wrapper>
       <Helmet>
@@ -439,6 +441,7 @@ function renderTrailer(videos, modalOpened, setmodalOpened) {
   if (videos.length === 0) {
     return;
   }
+  console.log(videos);
   const { key } = videos.find(
     video => video.type === 'Trailer' && video.site === 'YouTube'
   );

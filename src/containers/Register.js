@@ -97,8 +97,8 @@ const Register = ({registerUser,user}) => {
                       </CCol>
                       <CCol xs="12" md="9">
                         <CSelect custom  name="member" id="Select" onChange={handleInputChange}>
-                          <option value="PREMIUM">PREMIUM</option>
-                          <option value="BASIC">BASIC</option>
+                          <option value="PREMIUM">PREMIUM (100k)</option>
+                          <option value="BASIC">BASIC (50k)</option>
                         </CSelect>
                       </CCol>
                     </CFormGroup>
@@ -125,10 +125,10 @@ const Register = ({registerUser,user}) => {
               <CCardFooter className="p-4">
                 <CRow>
                   <CCol xs="12" sm="6">
-                    <CButton className="btn-facebook mb-1" block><span>facebook</span></CButton>
+                    <CButton className="btn-facebook mb-1" block onClick={()=>history.push("/login")}><span>Already account Login nơ</span></CButton>
                   </CCol>
                   <CCol xs="12" sm="6">
-                    <CButton className="btn-twitter mb-1" block><span>twitter</span></CButton>
+                    {/* <CButton className="btn-twitter mb-1" block><span>twitter</span></CButton> */}
                   </CCol>
                 </CRow>
               </CCardFooter>

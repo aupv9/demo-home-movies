@@ -102,12 +102,9 @@ const Sidebar = ({ genres, staticCategories, selected,logout ,user}) => {
 
   useEffect(() => {
     if(user.type === "LOGOUT_SUCCESS"){
-      console.log(user);
       localStorage.removeItem("auth");
-      window.location.reload();
+      localStorage.removeItem("id");
     }
-  
-   
   }, [user]);
 
   return (
@@ -116,6 +113,7 @@ const Sidebar = ({ genres, staticCategories, selected,logout ,user}) => {
       <Wrapper>
         
         <Logo />
+
         <CButton color="danger" size="md" className="h-100" onClick={signout}>Sign Out</CButton>
         <Heading>Discover</Heading>
         {renderStatic(staticCategories, selected)}
