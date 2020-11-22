@@ -36,7 +36,9 @@ const Login = ({user,userLogin,getUser}) => {
   };
 
   useEffect(() => {
-      localStorage.getItem("auth") ? history.push("/discover/Popular"):history.push("/login");
+    if(user.auth === true){
+      history.push("/discover/Popular");
+     }
   }, [])
 
   useEffect(() => {
@@ -54,6 +56,7 @@ const Login = ({user,userLogin,getUser}) => {
           history.push("/discover/Popular");
        }
      }
+    
   }, [user]);
 
    const login = ()=>{

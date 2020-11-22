@@ -438,6 +438,7 @@ function renderImdb(id) {
 
 // Render Trailer button. On click triggers state to open modal of trailer
 function renderTrailer(videos, modalOpened, setmodalOpened) {
+  console.log(videos);
   if (videos.length === 0) {
     return;
   }

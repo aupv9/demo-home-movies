@@ -151,6 +151,7 @@ const Tooltip = styled.span`
 
 // Function to render list of movies
 const MovieItem = ({ movie, baseUrl }) => {
+  console.log(movie);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   useEffect(() => {
